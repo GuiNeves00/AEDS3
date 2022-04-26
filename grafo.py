@@ -95,8 +95,8 @@ class Grafo:
       return True
 
   def busca_largura(self, s):
-    """Retorna a ordem de descoberta dos vertices pela 
-       busca em largura a partir de s"""
+    #Retorna a ordem de descoberta dos vertices pela 
+    #busca em largura a partir de s
     desc = [0 for v in range(self.num_vert)]
     Q = [s]
     R = [s]
