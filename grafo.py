@@ -131,11 +131,13 @@ class Grafo:
       if desempilhar == True:
         S.pop()
   
+    print("imprimindo desc")
+    print(desc)
+
     return R
 
 
   def busca_largura_conexo(self, s):
-    print("inicio blc")
     desc = [0 for v in range(self.num_vert)]
     Q = [s]
     R = [s]
@@ -147,46 +149,59 @@ class Grafo:
           Q.append(v)
           R.append(v)
           desc[v] = 1
-    
-    print("fim blc")
+
     return desc
 
+  #versao feita em aula, mudança = R[len(R)-1]
+  def busca_profundidade_conexo(self, s):
+    desc = [0 for v in range(self.num_vert)]
+    S = [s]
+    R = [s]
+    desc[s] = 1
+
+    while S:    
+      u = S[len(S)-1]
+      desempilhar = True
+
+      for (v, w) in self.lista_adj[u]:
+        if desc[v] == 0:
+          S.append(v)
+          R[len(R)-1] = v
+          desc[v] = 1
+          desempilhar = False
+          break
+    
+      if desempilhar == True:
+        S.pop()
+  
+    return desc
+
+  #versao adaptada do slide do professor
+  def busca_profundidade_conexo2(self, s):
+    desc = [0 for i in range (self.num_vert)]
+    S = [s]
+    R = [s]
+    desc[s] = 1
+
+    while len(S) != 0:
+      u = S[-1]
+      desempilhar = True
+      for (v,w) in self.lista_adj[u]:
+        if desc[v] == 0:
+          desempilhar = False
+          S.append(v)
+          R.append(v)
+          desc[v] = 1
+          break
+      if desempilhar:
+        S.pop()
+    
+    return desc
 
   def conexo(self, s):
-    print("retorna 0 se nao conexo e 1 se conexo")
-    #flag = [999 for i in range(self.num_vert)]
-    while (s <= self.num_vert):  
-      desc_c = [self.busca_largura_conexo(s)]
-      for i in range (len(desc_c)):
-        if desc_c[i] != 0:
-          return "NAO-CONEXO"
-        elif all(p == 1 for p in desc_c):
-          return "CONEXO"
-        else:
-          return "ERRO"
-          #flag[i] = 1
-      s = s+1
-
-      #for j in range (len(flag)):
-        #if flag[j] == 1:
-          #continue
-        #else:
-    #return
-
-  def conexo1(self, s):
-    print("inicio")
-    desc = [self.busca_largura_conexo(s)]
-    print("desc")
-    print(desc)
-    for i in range (len(desc)):
-      if desc[i] == 0:
-        print("desc[i]")
-        print(desc[i])
+    print("1 = conexo | 0 = nao conexo")
+    desc_c = self.busca_profundidade_conexo(s)
+    for i in range (len(desc_c)):
+      if desc_c[i] == 0:
         return 0
-    print("desc[i]")
-    print(desc[i])
-    print("fim")
     return 1
-
-  def testeGit():
-    return "testando git" 
