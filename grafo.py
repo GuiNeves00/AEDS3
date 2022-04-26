@@ -187,3 +187,6 @@ class Grafo:
     print(desc[i])
     print("fim")
     return 1
+
+  def testeGit():
+    return "testando git" 
