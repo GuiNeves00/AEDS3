@@ -1,6 +1,9 @@
 import sys
 sys.path.append("..")
 import grafo
+
+#nesta aula, desenvolvemos a funcao ler_arquivo e densidade no arquivo grafo
+
 #g1 = grafo.Grafo(4) #cria grafo de 4 arestas sem vertices
 #g1.add_aresta(0, 2)
 #g1.add_aresta(1, 3)
