@@ -4,4 +4,4 @@ import grafo
 
 grafoM = grafo.Grafo()
 grafoM.ler_arquivo("dimacs6.txt")
-print(grafoM.conexo(0))
+print("retorno do funcao:", grafoM.conexo(0))
