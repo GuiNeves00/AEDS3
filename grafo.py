@@ -83,6 +83,24 @@ class Grafo:
     dens = self.num_arestas / (self.num_vert*(self.num_vert - 1))
     return dens
 
+#Questao 3) Escreva uma funcao em python que receba um grafo representado por
+#lista de adjacencias como parametro e retorne o mesmo grafo como uma matriz de adj
+  def converteListMat (self, lista):
+    matriz = [lista]
+    for i in range (len(lista)):
+      for j in range (len(lista[i])):
+        #print("i = ", i, " j = ", j)
+        #print("len(lista)", len(lista))
+        #print("lista[i][j] = ", lista[i][j])
+        if lista[i][j] != []:
+          aux = lista[i][j][i]
+          #print("AUX = ", aux)
+          matriz[i][aux] = 1
+        else:
+          print("entrou no else")
+    return matriz
+
+
   #FAZER EM CASA
   def subgrafo (self, g2):
     if g2.num_vert > self.num_vert or g2.num_arestas > self.num_arestas:
@@ -205,3 +223,14 @@ class Grafo:
       if desc_c[i] == 0:
         return 0
     return 1
+
+  #def dijkstra(self, s):
+    #dist = [float("inf") for v in range (self.num_vert)]
+    #pred = [None for v in range (self.num_vert)]
+    
+    #dist [s] = 0
+
+    #Q = [self.num_vert]
+
+    #while (Q != []):
+      #u = 

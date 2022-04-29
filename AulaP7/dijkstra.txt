@@ -1,0 +1,22 @@
+DIJKSTRA(G = (V, E, w), s)
+    para cada v em v
+        dist[v] <- infinito
+        pred[v] <- Null
+    
+    dist[s] <- 0
+    Q <- V
+
+    enquanto Q != vazio
+        u <- i tal que min(dist[i]) para todo (-V-) i pertence (E) a Q
+        Q <- Q - {u}
+        para cada v adjacente a u
+            se dist[v] > dist[u] + w(u, v)
+                dist[v] <- dist[u] + w(u, v)
+                pred[v] <- u
+    
+    retorne dist, pred
+
+observações:
+dist = distância
+pred = predecessor
+conferir a cada iteração se o U está correto
