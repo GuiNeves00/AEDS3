@@ -225,7 +225,9 @@ class Grafo:
 
 
 #----------------------------------------------------------------------------------
-# EXERCICIOS
+#..........EXERCICIOS..........
+
+#~~~~~AULA 03~~~~~
 #Questao 3) Escreva uma funcao em python que receba um grafo representado por
 #lista de adjacencias como parametro e retorne o mesmo grafo como uma matriz de adj
   def converteListMat(self, lista):
@@ -240,10 +242,22 @@ class Grafo:
 #por matriz de adjacencias e retorne o seu grafo complementar G~, tambem como
 #uma matriz de adjacencias
   def mat_complementar(self, mat):
-    for i in range (len(mat)):
-      j = i+1
-      for j in range (len(mat[i])):
-        print("i = ", i, "j = ", j)
-        if mat[i][j] == 0:
-          mat[i][j] = 1
-    print(mat)
+    tam = len(mat)
+    mat_comp = [[0 for x in range(tam)] for y in range(tam)]
+    for i in range(tam):
+      for j in range(len(mat[i])):
+        if i == j:
+          mat_comp[i][j] = 0
+        else:
+          mat_comp[i][j] = 1
+    return mat_comp
+
+#Questao 5) Desenvolva uma funcao em python que receba como parametro um grafo G
+#representado por uma lista de adjacencias e determine se G e completo
+  def completo(self, lista):
+    for i in range(len(lista)):
+      if len(lista[i]) != self.num_vert-1 and lista[i] != []:
+        return False
+    return True
+
+#~~~~~AULA 04~~~~~

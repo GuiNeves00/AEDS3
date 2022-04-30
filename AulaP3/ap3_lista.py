@@ -8,7 +8,6 @@ print(grau_lista(g_lista, 0))
 
 def regular_lista (g_lista) -> bool:
     g = grau_lista(g_lista, 0)
-
     for i in range (1, len(g_lista)):
         if grau_lista(g_lista, i) != g:
             return False
