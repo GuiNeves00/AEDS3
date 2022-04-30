@@ -7,7 +7,10 @@ import grafo
 
 grafo_M = grafo.Grafo()
 grafo_M.ler_arquivo("dimacsA03.txt")
-print("lista: ", grafo_M.lista_adj)
+#print("lista: ", grafo_M.lista_adj)
 print("matriz: ", grafo_M.mat_adj)
-print("retorno funcao: ", grafo_M.converteListMat(grafo_M.lista_adj))
+#print("retorno funcao: ", grafo_M.converteListMat(grafo_M.lista_adj))
 #print(grafo_M.lista_adj[0][1])
+
+#N4)
+grafo_M.mat_complementar(grafo_M.mat_adj)

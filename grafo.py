@@ -18,7 +18,7 @@ class Grafo:
       self.mat_adj = mat_adj
 
   def add_aresta(self, u, v, w = 1):
-    #"""Adiciona aresta de u a v com peso w"""
+    """Adiciona aresta de u a v com peso w"""
     self.num_arestas += 1
     if u < self.num_vert and v < self.num_vert:
       self.lista_adj[u].append((v, w))
@@ -27,7 +27,7 @@ class Grafo:
       print("Aresta invalida!")
 
   def remove_aresta(self, u, v):
-    #"""Remove aresta de u a v, se houver"""
+    """Remove aresta de u a v, se houver"""
     if u < self.num_vert and v < self.num_vert:
       if self.mat_adj[u][v] != 0:
         self.num_arestas += 1
@@ -42,75 +42,64 @@ class Grafo:
       print("Aresta invalida!")
 
   def grau(self, u):
-    #"""Retorna o grau do vertice u"""
+    """Retorna o grau do vertice u"""
     return len(self.lista_adj[u])
 
   def adjacente(self, u, v):
-    #"""Determina se v é adjacente a u"""
+    """Determina se v é adjacente a u"""
     if self.mat_adj[u][v] != 0:
       return True
     else:
       return False
 
+  def adjacentes_peso(self, u):
+      """Retorna a lista dos vertices adjacentes a u no formato (v, w)"""
+      return self.lista_adj[u]
+
   def adjacentes(self, u):
-    #"""Retorna a lista dos vertices adjacentes a u"""
-    return self.lista_adj[u]
+    """Retorna a lista dos vertices adjacentes a u"""
+    adj = []
+    for i in range(len(self.lista_adj[u])):
+      (v, w) = self.lista_adj[u][i]
+      adj.append(v)
+    return adj
+
+  def densidade (self):
+    dens = self.num_arestas / (self.num_vert*(self.num_vert - 1))
+    return dens
+
+  def subgrafo(self, g2):
+    """Determina se g2 e subgrafo de self"""
+    if g2.num_vert > self.num_vert:
+      return False
+    for i in range(len(g2.mat_adj)):
+      for j in range(len(g2.mat_adj[i])):
+        if g2.mat_adj[i][j] != 0 and self.mat_adj[i][j] == 0:
+          return False
+    return True
 
   def ler_arquivo(self, nome_arq):
-    #"""Le arquivo de grafo no formato dimacs"""
+    """Le arquivo de grafo no formato dimacs"""
     try:
       arq = open(nome_arq)
       #Leitura do cabecalho
       str = arq.readline()
       str = str.split(" ")
       self.num_vert = int(str[0])
-      self.num_arestas = int(str[1])
+      cont_arestas = int(str[1])
       #Inicializacao das estruturas de dados
       self.lista_adj = [[] for i in range(self.num_vert)]
       self.mat_adj = [[0 for j in range(self.num_vert)] for i in range(self.num_vert)] 
       #Le cada aresta do arquivo
-      for i in range(0,self.num_arestas):
+      for i in range(0,cont_arestas):
         str = arq.readline()
         str = str.split(" ")
-        u = int(str[0]) #origem 
-        v = int(str[1]) #destino
-        w = int(str[2]) #peso
+        u = int(str[0]) #Vertice origem
+        v = int(str[1]) #Vertice destino
+        w = int(str[2]) #Peso da aresta
         self.add_aresta(u, v, w)
     except IOError:
       print("Nao foi possivel encontrar ou ler o arquivo!")
-
-  def densidade (self):
-    dens = self.num_arestas / (self.num_vert*(self.num_vert - 1))
-    return dens
-
-#Questao 3) Escreva uma funcao em python que receba um grafo representado por
-#lista de adjacencias como parametro e retorne o mesmo grafo como uma matriz de adj
-  def converteListMat (self, lista):
-    matriz = [lista]
-    for i in range (len(lista)):
-      for j in range (len(lista[i])):
-        #print("i = ", i, " j = ", j)
-        #print("len(lista)", len(lista))
-        #print("lista[i][j] = ", lista[i][j])
-        if lista[i][j] != []:
-          aux = lista[i][j][i]
-          #print("AUX = ", aux)
-          matriz[i][aux] = 1
-        else:
-          print("entrou no else")
-    return matriz
-
-
-  #FAZER EM CASA
-  def subgrafo (self, g2):
-    if g2.num_vert > self.num_vert or g2.num_arestas > self.num_arestas:
-      return False
-    #percorre mat_adj de g2
-    for i in range (len(g2.mat_adj)):
-      for j in range (len(g2.mat_adj[i])):
-        if g2[i][j] != 0 and self.amt_adj[i][j] == 0:
-          return False
-      return True
 
   def busca_largura(self, s):
     #Retorna a ordem de descoberta dos vertices pela 
@@ -217,12 +206,11 @@ class Grafo:
     return desc
 
   def conexo(self, s):
-    print("1 = conexo | 0 = nao conexo")
     desc_c = self.busca_profundidade_conexo(s)
     for i in range (len(desc_c)):
       if desc_c[i] == 0:
-        return 0
-    return 1
+        return False
+    return True
 
   #def dijkstra(self, s):
     #dist = [float("inf") for v in range (self.num_vert)]
@@ -234,3 +222,28 @@ class Grafo:
 
     #while (Q != []):
       #u = 
+
+
+#----------------------------------------------------------------------------------
+# EXERCICIOS
+#Questao 3) Escreva uma funcao em python que receba um grafo representado por
+#lista de adjacencias como parametro e retorne o mesmo grafo como uma matriz de adj
+  def converteListMat(self, lista):
+    matriz = [[0 for x in range(len(lista))] for y in range(len(lista))]
+    for i in range (len(lista)):
+      for j in range (len(lista[i])):
+        if lista[i][j] != None:
+          matriz[i][lista[i][j][0]] = 1
+    return matriz
+
+#Questao 4) Implemente uma funcao em python que receba um grafo G representado
+#por matriz de adjacencias e retorne o seu grafo complementar G~, tambem como
+#uma matriz de adjacencias
+  def mat_complementar(self, mat):
+    for i in range (len(mat)):
+      j = i+1
+      for j in range (len(mat[i])):
+        print("i = ", i, "j = ", j)
+        if mat[i][j] == 0:
+          mat[i][j] = 1
+    print(mat)
